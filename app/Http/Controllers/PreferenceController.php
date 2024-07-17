@@ -72,7 +72,7 @@ class PreferenceController extends Controller {
         if($isUserPref) {
             try {
                 User::findOrFail($uid);
-            } catch (ModelNotFoundException $e) {
+            } catch(ModelNotFoundException $e) {
                 return response()->json([
                     'error' => __('This user does not exist')
                 ], 400);
@@ -112,15 +112,6 @@ class PreferenceController extends Controller {
                 $userPref->save();
             } else {
                 $pref->default_value = $encodedValue;
-                $allowOverride = $c['allow_override'];
-                if($allowOverride === true || $allowOverride === false) {
-                    $removeUserPrefs = $pref->allow_override && !$allowOverride;
-                    $pref->allow_override = $allowOverride;
-                    // remove stored user prefs, if pref is no longer overridable
-                    if($removeUserPrefs) {
-                        UserPreference::where('pref_id', $pref->id)->delete();
-                    }
-                }
                 $pref->save();
             }
         }

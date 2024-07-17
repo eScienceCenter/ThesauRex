@@ -5,17 +5,28 @@
             <small class="text-muted">
                 {{ getUser().name }}
             </small>
-            <button type="button" class="btn btn-outline-success btn-sm" @click="savePreferences()">
+            <button
+                type="button"
+                class="btn btn-outline-success btn-sm"
+                @click="savePreferences()"
+            >
                 <i class="fas fa-fw fa-save"></i>
                 {{ t('global.save') }}
             </button>
         </h3>
         <div class="table-responsive scroll-x-hidden">
-            <table class="table table-light table-striped table-hover mb-0" v-if="state.prefsLoaded" v-dcan="'thesaurus_write'">
+            <table
+                class="table table-light table-striped table-hover mb-0"
+                v-if="state.prefsLoaded"
+                v-dcan="'thesaurus_write'"
+            >
                 <thead class="sticky-top">
                     <tr class="text-nowrap">
                         <th>{{ t('global.preference') }}</th>
-                        <th style="width: 99%;" class="text-end">{{ t('global.value') }}</th>
+                        <th
+                            style="width: 99%;"
+                            class="text-end"
+                        >{{ t('global.value') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,9 +39,9 @@
                         <td>
                             <gui-language-preference
                                 :data="state.preferences['prefs.gui-language']"
-                                :readonly="!state.overrides['prefs.gui-language']"
                                 :browser-default="true"
-                                @changed="e => trackChanges('prefs.gui-language', e)">
+                                @changed="e => trackChanges('prefs.gui-language', e)"
+                            >
                             </gui-language-preference>
                         </td>
                     </tr>
@@ -41,8 +52,8 @@
                         <td>
                             <reset-email-preference
                                 :data="state.preferences['prefs.enable-password-reset-link']"
-                                :readonly="!state.overrides['prefs.enable-password-reset-link']"
-                                @changed="e => trackChanges('prefs.enable-password-reset-link', e)">
+                                @changed="e => trackChanges('prefs.enable-password-reset-link', e)"
+                            >
                             </reset-email-preference>
                         </td>
                     </tr>
@@ -53,8 +64,8 @@
                         <td>
                             <project-name-preference
                                 :data="state.preferences['prefs.project-name']"
-                                :readonly="!state.overrides['prefs.project-name']"
-                                @changed="e => trackChanges('prefs.project-name', e)">
+                                @changed="e => trackChanges('prefs.project-name', e)"
+                            >
                             </project-name-preference>
                         </td>
                     </tr>
@@ -65,8 +76,8 @@
                         <td>
                             <spacialist-link-preference
                                 :data="state.preferences['prefs.link-to-spacialist']"
-                                :readonly="!state.overrides['prefs.link-to-spacialist']"
-                                @changed="e => trackChanges('prefs.link-to-spacialist', e)">
+                                @changed="e => trackChanges('prefs.link-to-spacialist', e)"
+                            >
                             </spacialist-link-preference>
                         </td>
                     </tr>
@@ -77,8 +88,8 @@
                         <td>
                             <import-config-preference
                                 :data="state.preferences['prefs.import-config']"
-                                :readonly="!state.overrides['prefs.import-config']"
-                                @changed="e => trackChanges('prefs.import-config', e)">
+                                @changed="e => trackChanges('prefs.import-config', e)"
+                            >
                             </import-config-preference>
                         </td>
                     </tr>
@@ -175,14 +186,7 @@
                 dirtyData: {},
                 hasDirtyData: computed(_ => Object.keys(state.dirtyData).length > 0),
                 preferences: computed(_ => store.getters.preferences),
-                overrides: computed(_ => {
-                    const sysPrefs = store.getters.systemPreferences;
-                    const overrideList = {};
-                    for(let k in sysPrefs) {
-                        overrideList[k] = sysPrefs[k].allow_override;
-                    }
-                    return overrideList;
-                }),
+
                 prefsLoaded: computed(_ => !!state.preferences),
                 browserLanguage: navigator.language ? navigator.language.split('-')[0] : 'en',
             });
